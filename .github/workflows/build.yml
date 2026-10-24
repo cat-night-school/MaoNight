@@ -65,6 +65,17 @@ jobs:
         working-directory: dopamine/Application/Dopamine/Resources
         run: ./download_bootstraps.sh
 
+      - name: Build and install trustcache
+        run: |
+          set -x
+          brew install openssl
+          git clone https://github.com/CRKatri/trustcache
+          cd trustcache
+          export CFLAGS="$CFLAGS -I$(brew --prefix openssl)/include -arch arm64"
+          export LDFLAGS="$LDFLAGS -L$(brew --prefix openssl)/lib -arch arm64"
+          gmake -j$(sysctl -n hw.logicalcpu) OPENSSL=1
+          sudo cp trustcache /opt/procursus/bin/
+          
       - name: Build
         working-directory: dopamine
         env:
