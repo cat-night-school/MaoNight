@@ -18,6 +18,14 @@ on:
         description: '作者'
         required: false
         default: '王关喆'
+      icon_url:
+        description: '自定义图标图片直链（留空用仓库 icon.png）'
+        required: false
+        default: ''
+      bg_url:
+        description: '自定义内部背景图片直链（留空用仓库 bg.jpg）'
+        required: false
+        default: ''
   push:
     branches: [ main ]
 jobs:
