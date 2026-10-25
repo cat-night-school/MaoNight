@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>猫夜 Maonight · 下载</title>
+<meta name="description" content="猫夜（Maonight）Windows 客户端下载：联机对弈、喵喵岛屿、越狱定制、猫夜会员。">
+<link rel="icon" href="icon.png">
+<link rel="preload" as="image" href="bg.webp" type="image/webp">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;
+  color:#f2f5ff;background:#0a0c14;
+  background-image:linear-gradient(180deg,rgba(6,8,16,.72),rgba(6,8,16,.92)),url('bg.jpg');
+  background-size:cover;background-position:center;background-attachment:fixed;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+}
+.wrap{width:100%;max-width:760px}
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.logo{width:64px;height:64px;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;font-size:30px}
+.brand h1{font-size:30px;letter-spacing:2px}
+.brand p{font-size:13px;color:rgba(255,255,255,.55);margin-top:4px}
+.card{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.14);border-radius:20px;padding:22px;margin-bottom:14px;backdrop-filter:blur(8px)}
+.card h2{font-size:16px;margin-bottom:10px;color:#b9cdff}
+.card p{font-size:13.5px;line-height:1.9;color:rgba(255,255,255,.75)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;border-radius:14px;border:1px solid rgba(111,155,240,.55);background:linear-gradient(180deg,rgba(58,102,214,.85),rgba(40,72,170,.9));color:#fff;font-size:16px;font-weight:800;text-decoration:none;transition:.15s;margin-bottom:10px}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.08)}
+.btn.ghost{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.2);font-weight:600;font-size:14px;padding:12px}
+.meta{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:rgba(255,255,255,.5);margin-top:8px}
+.meta span{padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}
+ul{padding-left:18px}
+li{font-size:13px;line-height:1.95;color:rgba(255,255,255,.75)}
+.foot{text-align:center;font-size:12px;color:rgba(255,255,255,.35);margin-top:18px;line-height:1.9}
+@media(max-width:600px){.brand h1{font-size:24px}.logo{width:52px;height:52px;font-size:24px}.card{padding:18px}}
+@supports (background-image:image-set(url('bg.webp') type('image/webp'))){body{background-image:linear-gradient(180deg,rgba(6,8,16,.72),rgba(6,8,16,.92)),image-set(url('bg.webp') type('image/webp'),url('bg.jpg') type('image/jpeg'))}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brand">
+    <div class="logo">🐾</div>
+    <div>
+      <h1>猫夜 Maonight</h1>
+      <p>Windows 客户端 · 联机对弈 · 喵喵岛屿 · 越狱定制</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>下载客户端</h2>
+    <p style="margin-bottom:14px">下载后解压，双击 <b>maonight.exe</b> 即可运行；首次打开会自动准备好全部页面，无需联网。</p>
+    <a class="btn" href="maonight.exe" download>⬇️ 下载猫夜（Windows）</a>
+    <a class="btn ghost" href="#help">安装与常见问题</a>
+    <div class="meta">
+      <span>Windows 10 / 11</span>
+      <span>约 61 MB</span>
+      <span>免安装</span>
+      <span>版本 1.1.0</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>包含功能</h2>
+    <ul>
+      <li>棋类训练（五子棋 / 围棋 / 象棋）与在线联机</li>
+      <li>喵喵岛屿：养猫、装饰、访客互动</li>
+      <li>越狱定制：一键替换图标与名字，输出 IPA</li>
+      <li>猫夜会员：工具包、隐私雷达、每月定制额度</li>
+      <li>卡密系统：猫币卡与会员卡，自动复制</li>
+    </ul>
+  </div>
+
+  <div class="card" id="help">
+    <h2>安装说明</h2>
+    <ul>
+      <li>解压后保持 <b>maonight.exe</b> 与同目录的 dll、winmd 文件在一起</li>
+      <li>若提示缺少 WebView2 运行时，请先安装 <a href="https://go.microsoft.com/fwlink/p/?LinkId=2124703" style="color:#9dbcff">微软 WebView2</a></li>
+      <li>杀毒误报：把整个文件夹加入白名单即可</li>
+      <li>卡密 / 会员问题请加 QQ 群：<b>763811049</b></li>
+    </ul>
+  </div>
+
+  <div class="foot">
+    猫夜 Maonight · 作者 王关喆 · QQ 群 763811049<br>
+    本站仅用于客户端下载与说明
+  </div>
+
+</div>
+</body>
+</html>
