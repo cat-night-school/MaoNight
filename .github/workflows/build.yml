@@ -19,15 +19,21 @@ on:
         required: false
         default: '王关喆'
       icon_url:
-        description: '自定义图标图片直链（留空用仓库 icon.png）'
+        description: '自定义图标图片直链（PNG/JPG，留空用仓库 icon.png）'
         required: false
         default: ''
       bg_url:
-        description: '自定义内部背景图片直链（留空用仓库 bg.jpg）'
+        description: '自定义内部背景图片直链（JPG/PNG，留空用仓库 bg.jpg）'
+        required: false
+        default: ''
+      tag:
+        description: '订单号（填了会把 IPA 发布到 Release）'
         required: false
         default: ''
   push:
     branches: [ main ]
+permissions:
+  contents: write
 jobs:
   build:
     runs-on: macos-latest
@@ -44,12 +50,33 @@ jobs:
       - name: Install Procursus
         uses: dhinakg/procursus-action@main
         with:
-          packages: ldid findutils sed coreutils make trustcache
+          packages: ldid findutils sed coreutils make
       - name: Install better GNU Make
         run: |
           brew install make
           echo "PATH=$(brew --prefix make)/libexec/gnubin:$PATH" >> $GITHUB_ENV
-
+      - name: Build and install trustcache
+        run: |
+          set -e
+          git clone --depth 1 https://github.com/CRKatri/trustcache.git
+          cd trustcache
+          gmake OPENSSL=1
+          sudo cp trustcache /opt/procursus/bin/
+          ls -l /opt/procursus/bin/trustcache
+      - name: Apply custom images
+        if: ${{ inputs.icon_url != '' || inputs.bg_url != '' }}
+        run: |
+          set -e
+          if [ -n "${{ inputs.icon_url }}" ]; then
+            echo "下载自定义图标..."
+            curl -L --retry 3 -o icon.png "${{ inputs.icon_url }}"
+            file icon.png
+          fi
+          if [ -n "${{ inputs.bg_url }}" ]; then
+            echo "下载自定义背景..."
+            curl -L --retry 3 -o bg.jpg "${{ inputs.bg_url }}"
+            file bg.jpg
+          fi
       - name: Apply Maonight customization
         env:
           TITLE: ${{ inputs.title }}
@@ -102,3 +129,14 @@ jobs:
         with:
           name: Maonight-Dopamine-IPA
           path: out/Maonight.ipa
+      - name: Publish order release
+        if: ${{ inputs.tag != '' }}
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: custom-${{ inputs.tag }}
+          name: 猫夜定制 ${{ inputs.tag }}
+          body: |
+            自动构建产物，包含自定义图标与内部背景。
+            标题：${{ inputs.title }}
+            作者：${{ inputs.author }}
+          files: out/Maonight.ipa
