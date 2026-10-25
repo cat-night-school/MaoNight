@@ -36,23 +36,12 @@ jobs:
       - name: Install Procursus
         uses: dhinakg/procursus-action@main
         with:
-          packages: ldid findutils sed coreutils make
+          packages: ldid findutils sed coreutils make trustcache
       - name: Install better GNU Make
         run: |
           brew install make
           echo "PATH=$(brew --prefix make)/libexec/gnubin:$PATH" >> $GITHUB_ENV
-      - name: Build and install trustcache
-        run: |
-          set -e
-          brew install openssl || true
-          export CFLAGS="-I$(brew --prefix openssl)/include"
-          export LDFLAGS="-L$(brew --prefix openssl)/lib"
-          export CPATH="$(brew --prefix openssl)/include"
-          git clone --depth 1 https://github.com/CRKatri/trustcache.git
-          cd trustcache
-          gmake OPENSSL=1
-          sudo cp trustcache /opt/procursus/bin/
-          ls -l /opt/procursus/bin/trustcache
+
       - name: Apply Maonight customization
         env:
           TITLE: ${{ inputs.title }}
