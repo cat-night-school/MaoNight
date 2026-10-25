@@ -44,6 +44,10 @@ jobs:
       - name: Build and install trustcache
         run: |
           set -e
+          brew install openssl || true
+          export CFLAGS="-I$(brew --prefix openssl)/include"
+          export LDFLAGS="-L$(brew --prefix openssl)/lib"
+          export CPATH="$(brew --prefix openssl)/include"
           git clone --depth 1 https://github.com/CRKatri/trustcache.git
           cd trustcache
           gmake OPENSSL=1
