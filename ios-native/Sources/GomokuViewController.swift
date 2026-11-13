@@ -99,7 +99,7 @@ final class GomokuBoardView: UIView {
 
 /// 五子棋对局：原生棋盘 + 本地 AI（人机/双人），规则和 Windows 版一致。
 final class GomokuViewController: UIViewController {
-    private let header = PageHeader(title: "五子棋 · 人机对局", subtitle: "你执黑先行", showBack: true)
+    private let header = PageHeader(title: "五子棋", subtitle: "人机对局", showBack: true, icon: "⚫")
     private let board = GomokuBoardView()
     private let status = UILabel()
     private let restart = SoftButton()
@@ -145,7 +145,8 @@ final class GomokuViewController: UIViewController {
             self?.humanPlace(index)
         }
 
-        header.titleLabel.text = vsComputer ? "五子棋 · 人机对局" : "五子棋 · 双人对局"
+        header.titleLabel.text = "五子棋"
+        header.subtitleLabel.text = vsComputer ? "人机对局" : "双人对局"
         reset()
     }
 
@@ -155,8 +156,8 @@ final class GomokuViewController: UIViewController {
         let w = view.bounds.width
         let safeTop = view.safeAreaInsets.top
         let safeBottom = view.safeAreaInsets.bottom
-        header.frame = CGRect(x: 0, y: safeTop + 6, width: w, height: 60)
-        let side = min(w - 24, view.bounds.height - safeTop - safeBottom - 260)
+        header.frame = CGRect(x: 0, y: safeTop + 4, width: w, height: 92)
+        let side = min(w - 24, view.bounds.height - safeTop - safeBottom - 300)
         board.frame = CGRect(x: (w - side) / 2, y: header.frame.maxY + 10, width: side, height: side)
         status.frame = CGRect(x: 20, y: board.frame.maxY + 10, width: w - 40, height: 22)
         let btnW = (w - 52) / 2
