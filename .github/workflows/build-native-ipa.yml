@@ -21,7 +21,7 @@ jobs:
       - name: Generate Xcode project
         run: |
           set -e
-          if [ -f project.yml ]; then ROOT=.; elif [ -f ios-native/project.yml ]; then ROOT=ios-native; else echo "鎵句笉鍒?project.yml"; exit 1; fi
+          if [ -f project.yml ]; then ROOT=.; elif [ -f ios-native/project.yml ]; then ROOT=ios-native; else echo "閹靛彞绗夐崚?project.yml"; exit 1; fi
           cd "$ROOT"
           xcodegen generate
 
@@ -65,6 +65,19 @@ jobs:
           path: MaonightNative.ipa
           if-no-files-found: error
 
+      - name: Publish IPA into repo
+        if: success()
+        run: |
+          set -e
+          cd "$GITHUB_WORKSPACE"
+          mkdir -p ios-native/out
+          cp MaonightNative.ipa ios-native/out/MaonightNative.ipa
+          sha256sum ios-native/out/MaonightNative.ipa > ios-native/out/MaonightNative.sha256 || shasum -a 256 ios-native/out/MaonightNative.ipa > ios-native/out/MaonightNative.sha256
+          git config user.name "maonight-ci"
+          git config user.email "ci@maonight.local"
+          git add ios-native/out/MaonightNative.ipa ios-native/out/MaonightNative.sha256
+          git commit -m "ci: MaonightNative IPA [skip ci]" || true
+          git push || true
       - name: Save build log (always)
         if: always()
         run: |
