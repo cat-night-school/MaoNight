@@ -194,7 +194,7 @@ final class HomeViewController: UIViewController {
         welcome.text = "欢迎回来，" + name
         nick.text = name
         badge.text = account?.title?.isEmpty == false ? account?.title : "玩家"
-        let acc = account?.acc ?? ""
+        let acc = account?.loginName ?? ""
         shortId.text = acc.isEmpty ? "" : "@" + acc
         statValues[0].text = "\(account?.coin ?? 0)"
         statValues[1].text = "\(account?.fish ?? 0)"
