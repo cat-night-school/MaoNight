@@ -309,7 +309,7 @@ final class HomeViewController: UIViewController {
             navigationController?.pushViewController(ChessFlowViewController(), animated: true)
         } else {
             navigationController?.pushViewController(
-                ComingSoonViewController(title: item.title), animated: true)
+                Pages.build(key: item.key, title: item.title), animated: true)
         }
     }
 
