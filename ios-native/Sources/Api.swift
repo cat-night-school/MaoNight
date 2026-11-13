@@ -57,7 +57,7 @@ enum Api {
         return "ios-unknown"
     }
 
-    private static func request(_ method: String, _ path: String,
+    static func request(_ method: String, _ path: String,
                                 body: [String: Any]?,
                                 completion: @escaping ([String: Any]?, String?) -> Void) {
         var req = URLRequest(url: base.appendingPathComponent(path))
