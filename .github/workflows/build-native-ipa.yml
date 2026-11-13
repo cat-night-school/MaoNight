@@ -5,6 +5,9 @@ on:
   push:
     branches: [ main ]
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: macos-latest
@@ -24,10 +27,9 @@ jobs:
 
       - name: Build unsigned app
         run: |
-          set -e
+          set +e
           if [ -f project.yml ]; then ROOT=.; else ROOT=ios-native; fi
-          cd "$ROOT"
-          xcodebuild \
+          ( cd "$ROOT" && xcodebuild \
             -project MaonightNative.xcodeproj \
             -scheme MaonightNative \
             -configuration Release \
@@ -36,9 +38,14 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
-            build
+            build ) > "$GITHUB_WORKSPACE/last-build.log" 2>&1
+          code=$?
+          tail -c 200000 "$GITHUB_WORKSPACE/last-build.log" > "$GITHUB_WORKSPACE/last-build-tail.log" || true
+          echo "xcodebuild exit=$code"
+          exit $code
 
       - name: Package IPA
+        if: success()
         run: |
           set -e
           if [ -f project.yml ]; then ROOT=.; else ROOT=ios-native; fi
@@ -47,11 +54,27 @@ jobs:
           mkdir -p Payload
           cp -R build/Build/Products/Release-iphoneos/MaonightNative.app Payload/
           zip -qr MaonightNative.ipa Payload
-          ls -lh MaonightNative.ipa
+          cp MaonightNative.ipa "$GITHUB_WORKSPACE/MaonightNative.ipa"
+          ls -lh "$GITHUB_WORKSPACE/MaonightNative.ipa"
 
       - name: Upload IPA
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: MaonightNative-IPA
-          path: '**/MaonightNative.ipa'
+          path: MaonightNative.ipa
           if-no-files-found: error
+
+      - name: Save build log (always)
+        if: always()
+        run: |
+          set -e
+          cd "$GITHUB_WORKSPACE"
+          git config user.name "maonight-ci"
+          git config user.email "ci@maonight.local"
+          if [ -f last-build-tail.log ]; then
+            cp last-build-tail.log ios-native/last-build.log
+            git add ios-native/last-build.log
+            git commit -m "ci: last build log [skip ci]" || true
+            git push || true
+          fi
