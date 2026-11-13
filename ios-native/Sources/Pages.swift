@@ -215,7 +215,6 @@ final class TapTarget: NSObject {
 enum Pages {
     static func build(key: String, title: String) -> UIViewController {
         switch key {
-        case "play.island": return IslandGamePage()
         case "social.chat": return ChatPage()
         case "social.rank": return RankPage()
         case "play.season-race": return SeasonPage(race: true)
