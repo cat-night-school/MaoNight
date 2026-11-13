@@ -83,7 +83,7 @@ enum Api {
                     return
                 }
                 if let ok = root["ok"] as? Bool, ok == false {
-                    let msg = (root["error"] as? String) ?? (root["message"] as? String) ?? "请求失败"
+                    let msg = (root["msg"] as? String) ?? (root["error"] as? String) ?? (root["message"] as? String) ?? "请求失败"
                     completion(nil, msg)
                     return
                 }
