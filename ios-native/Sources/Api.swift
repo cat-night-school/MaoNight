@@ -60,7 +60,12 @@ enum Api {
     static func request(_ method: String, _ path: String,
                                 body: [String: Any]?,
                                 completion: @escaping ([String: Any]?, String?) -> Void) {
-        var req = URLRequest(url: base.appendingPathComponent(path))
+        // 注意：不能用 appendingPathComponent（会给路径加尾斜杠，后端 /api/xxx/ 会返回「接口不存在」）
+        guard let url = URL(string: base.absoluteString + path) else {
+            completion(nil, "接口地址无效")
+            return
+        }
+        var req = URLRequest(url: url)
         req.httpMethod = method
         req.addValue("application/json", forHTTPHeaderField: "Content-Type")
         req.addValue("MaonightNative-iOS", forHTTPHeaderField: "User-Agent")
