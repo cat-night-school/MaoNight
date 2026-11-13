@@ -1,7 +1,8 @@
 import UIKit
 
-/// 登录页：原生输入框 + 原生按钮，登录成功后进首页。
+/// 登录页：照片背景 + 玻璃卡片，原生输入框和按钮，登录成功后进首页。
 final class LoginViewController: UIViewController, UITextFieldDelegate {
+    private let logoRing = UIView()
     private let logoLabel = UILabel()
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
@@ -17,19 +18,22 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         Theme.installBackground(view)
 
+        logoRing.backgroundColor = UIColor(red: 0.98, green: 0.95, blue: 0.90, alpha: 1)
+        logoRing.layer.cornerRadius = 38
+        logoRing.layer.cornerCurve = .continuous
+        logoRing.layer.borderWidth = 2
+        logoRing.layer.borderColor = UIColor(white: 1, alpha: 0.5).cgColor
+        view.addSubview(logoRing)
+
         logoLabel.text = "猫"
-        logoLabel.textColor = Theme.ink
+        logoLabel.textColor = UIColor(red: 0.16, green: 0.14, blue: 0.12, alpha: 1)
         logoLabel.font = Theme.font(34, true)
         logoLabel.textAlignment = .center
-        logoLabel.backgroundColor = UIColor(white: 1, alpha: 0.10)
-        logoLabel.layer.cornerRadius = 34
-        logoLabel.layer.cornerCurve = .continuous
-        logoLabel.layer.masksToBounds = true
-        view.addSubview(logoLabel)
+        logoRing.addSubview(logoLabel)
 
         titleLabel.text = "猫夜"
         titleLabel.textColor = Theme.ink
-        titleLabel.font = Theme.font(26, true)
+        titleLabel.font = Theme.font(28, true)
         titleLabel.textAlignment = .center
         view.addSubview(titleLabel)
 
@@ -73,18 +77,18 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
     }
 
     private func style(_ field: UITextField, placeholder: String) {
-        field.backgroundColor = UIColor(white: 0, alpha: 0.28)
+        field.backgroundColor = UIColor(white: 0, alpha: 0.30)
         field.textColor = Theme.ink
         field.font = Theme.font(15)
-        field.layer.cornerRadius = 12
+        field.layer.cornerRadius = Theme.radiusInner
         field.layer.cornerCurve = .continuous
         field.layer.borderWidth = 1
-        field.layer.borderColor = Theme.stroke.cgColor
+        field.layer.borderColor = Theme.strokeSoft.cgColor
         field.attributedPlaceholder = NSAttributedString(
             string: placeholder,
             attributes: [.foregroundColor: Theme.faint]
         )
-        let pad = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 1))
+        let pad = UIView(frame: CGRect(x: 0, y: 0, width: 14, height: 1))
         field.leftView = pad
         field.leftViewMode = .always
     }
@@ -94,19 +98,20 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
         Theme.layoutBackground(view)
         let w = view.bounds.width
         let safeTop = view.safeAreaInsets.top
-        logoLabel.frame = CGRect(x: w / 2 - 34, y: safeTop + 36, width: 68, height: 68)
-        titleLabel.frame = CGRect(x: 24, y: logoLabel.frame.maxY + 14, width: w - 48, height: 34)
+        logoRing.frame = CGRect(x: w / 2 - 38, y: safeTop + 30, width: 76, height: 76)
+        logoLabel.frame = CGRect(x: 0, y: 14, width: 76, height: 48)
+        titleLabel.frame = CGRect(x: 24, y: logoRing.frame.maxY + 16, width: w - 48, height: 36)
         subtitleLabel.frame = CGRect(x: 24, y: titleLabel.frame.maxY + 2, width: w - 48, height: 20)
-        let cardTop = subtitleLabel.frame.maxY + 24
-        let cardW = min(w - 40, 420)
-        card.frame = CGRect(x: (w - cardW) / 2, y: cardTop, width: cardW, height: 300)
+        let cardTop = subtitleLabel.frame.maxY + 26
+        let cardW = min(w - 40, 460)
+        card.frame = CGRect(x: (w - cardW) / 2, y: cardTop, width: cardW, height: 296)
         let cw = card.bounds.width
-        accountLabel.frame = CGRect(x: 18, y: 20, width: cw - 36, height: 18)
-        accountField.frame = CGRect(x: 18, y: 42, width: cw - 36, height: 46)
-        passwordLabel.frame = CGRect(x: 18, y: 102, width: cw - 36, height: 18)
-        passwordField.frame = CGRect(x: 18, y: 124, width: cw - 36, height: 46)
-        loginButton.frame = CGRect(x: 18, y: 190, width: cw - 36, height: 50)
-        hintLabel.frame = CGRect(x: 24, y: card.frame.maxY + 14, width: w - 48, height: 18)
+        accountLabel.frame = CGRect(x: 20, y: 20, width: cw - 40, height: 18)
+        accountField.frame = CGRect(x: 20, y: 42, width: cw - 40, height: 48)
+        passwordLabel.frame = CGRect(x: 20, y: 104, width: cw - 40, height: 18)
+        passwordField.frame = CGRect(x: 20, y: 126, width: cw - 40, height: 48)
+        loginButton.frame = CGRect(x: 20, y: 192, width: cw - 40, height: 52)
+        hintLabel.frame = CGRect(x: 24, y: card.frame.maxY + 16, width: w - 48, height: 18)
     }
 
     @objc private func tapLogin() {
@@ -137,8 +142,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
 
     private func enterHome() {
         guard let nav = navigationController else { return }
-        let home = HomeViewController()
-        nav.setViewControllers([home], animated: true)
+        nav.setViewControllers([HomeViewController()], animated: true)
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
