@@ -3,7 +3,7 @@ import UIKit
 /// 棋类训练：照原版五步流程 —— 选棋种 → 模式 → 难度 → 先后手 / 联机房间。
 /// 全部原生控件，没有网页。
 final class ChessFlowViewController: UIViewController {
-    private let header = PageHeader(title: "棋类训练", subtitle: "选择棋种", showBack: true)
+    private let header = PageHeader(title: "棋类训练", subtitle: "选择棋种", showBack: true, icon: "♟")
     private let body = UIView()
 
     private let games: [(icon: String, name: String, spec: String)] = [
@@ -57,8 +57,8 @@ final class ChessFlowViewController: UIViewController {
         Theme.layoutBackground(view)
         let w = view.bounds.width
         let safeTop = view.safeAreaInsets.top
-        header.frame = CGRect(x: 0, y: safeTop + 6, width: w, height: 60)
-        body.frame = CGRect(x: 0, y: header.frame.maxY + 8, width: w, height: view.bounds.height - header.frame.maxY - 8)
+        header.frame = CGRect(x: 0, y: safeTop + 4, width: w, height: 92)
+        body.frame = CGRect(x: 0, y: header.frame.maxY + 6, width: w, height: view.bounds.height - header.frame.maxY - 6)
     }
 
     private func rebuild() {
