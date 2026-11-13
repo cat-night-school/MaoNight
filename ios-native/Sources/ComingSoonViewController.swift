@@ -10,7 +10,7 @@ final class ComingSoonViewController: UIViewController {
     private let progressLabel = UILabel()
 
     init(title: String) {
-        header = PageHeader(title: title, subtitle: "原生版", showBack: true)
+        header = PageHeader(title: title, subtitle: "原生版", showBack: true, icon: "🐾")
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -54,7 +54,7 @@ final class ComingSoonViewController: UIViewController {
         Theme.layoutBackground(view)
         let w = view.bounds.width
         let safeTop = view.safeAreaInsets.top
-        header.frame = CGRect(x: 0, y: safeTop + 6, width: w, height: 60)
+        header.frame = CGRect(x: 0, y: safeTop + 4, width: w, height: 92)
         let cardW = min(w - 40, 460)
         card.frame = CGRect(x: (w - cardW) / 2, y: header.frame.maxY + 30, width: cardW, height: 300)
         iconLabel.frame = CGRect(x: 0, y: 30, width: cardW, height: 50)
