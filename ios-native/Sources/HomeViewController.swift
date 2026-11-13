@@ -202,7 +202,7 @@ final class HomeViewController: UIViewController {
         avatar.text = String(name.prefix(1))
         rankLabel.text = "当前：新手"
         idLabel.text = "我的 ID    " + (acc.isEmpty ? "--------" : acc)
-        setNeedsLayout()
+        view.setNeedsLayout()
     }
 
     override func viewDidLayoutSubviews() {
