@@ -38,7 +38,6 @@ final class HomeViewController: UIViewController {
 
     private let menu: [MenuItem] = [
         MenuItem(icon: "🎮", title: "棋类训练", key: "play.chess"),
-        MenuItem(icon: "🏝", title: "喵喵岛屿", key: "play.island"),
         MenuItem(icon: "🏆", title: "连胜排行", key: "social.rank"),
         MenuItem(icon: "📅", title: "赛季进阶赛", key: "play.season-race"),
         MenuItem(icon: "💬", title: "聊天室", key: "social.chat"),
