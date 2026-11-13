@@ -207,9 +207,18 @@ extension Api {
         }
     }
 
+    static func health(completion: @escaping (Bool, String, Int) -> Void) {
+        let start = Date()
+        call("GET", "/api/health", nil) { data, err in
+            let ms = Int(Date().timeIntervalSince(start) * 1000)
+            let ok = err == nil && data != nil
+            completion(ok, err ?? "连接成功", ms)
+        }
+    }
+
     static func ping(completion: @escaping (Int) -> Void) {
         let start = Date()
-        call("GET", "/api/ping", nil) { _, _ in
+        call("GET", "/api/health", nil) { _, _ in
             completion(Int(Date().timeIntervalSince(start) * 1000))
         }
     }
