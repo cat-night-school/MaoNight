@@ -17,6 +17,9 @@ targets:
     sources:
       - path: Sources
       - path: Assets.xcassets
+      - path: Assets
+        type: folder
+        buildPhase: resources
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.maonight.native
