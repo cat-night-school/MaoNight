@@ -575,6 +575,7 @@ final class ToolsPage: MnPage {
         softButton("设备信息", action: #selector(tapDevice))
         softButton("网络加速测试", action: #selector(tapNetwork))
         softButton("安全检测", action: #selector(tapSecurity))
+        softButton("服务器诊断（看真实原因）", action: #selector(tapDiag))
         output.textColor = Theme.ink
         output.font = Theme.mono(12)
         output.numberOfLines = 0
@@ -597,6 +598,20 @@ final class ToolsPage: MnPage {
         output.text = "正在测速…"
         Api.ping { [weak self] ms in
             self?.output.text = "猫夜后端延迟：\(ms) ms\n" + (ms < 300 ? "连接正常 ✓" : "网络较差，建议切换网络")
+        }
+    }
+
+    @objc private func tapDiag() {
+        output.text = "正在诊断…"
+        let base = Api.base.absoluteString
+        Api.health { ok, msg, ms in
+            var lines: [String] = []
+            lines.append("后端：\\(base)")
+            lines.append(ok ? "健康检查：✓ 可用（\\(ms) ms）" : "健康检查：✗ 失败")
+            if !ok { lines.append("原因：" + msg) }
+            lines.append("登录状态：" + (AuthStore.token == nil ? "未登录（没有 token）" : "已登录（token 有值）"))
+            lines.append("账号：" + (AuthStore.account?.loginName ?? "-"))
+            self.output.text = lines.joined(separator: "\\n")
         }
     }
 
