@@ -1,0 +1,57 @@
+name: Build Maonight Native IPA
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: |
+          set -e
+          if [ -f project.yml ]; then ROOT=.; elif [ -f ios-native/project.yml ]; then ROOT=ios-native; else echo "鎵句笉鍒?project.yml"; exit 1; fi
+          cd "$ROOT"
+          xcodegen generate
+
+      - name: Build unsigned app
+        run: |
+          set -e
+          if [ -f project.yml ]; then ROOT=.; else ROOT=ios-native; fi
+          cd "$ROOT"
+          xcodebuild \
+            -project MaonightNative.xcodeproj \
+            -scheme MaonightNative \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            build
+
+      - name: Package IPA
+        run: |
+          set -e
+          if [ -f project.yml ]; then ROOT=.; else ROOT=ios-native; fi
+          cd "$ROOT"
+          rm -rf Payload MaonightNative.ipa
+          mkdir -p Payload
+          cp -R build/Build/Products/Release-iphoneos/MaonightNative.app Payload/
+          zip -qr MaonightNative.ipa Payload
+          ls -lh MaonightNative.ipa
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: MaonightNative-IPA
+          path: '**/MaonightNative.ipa'
+          if-no-files-found: error
