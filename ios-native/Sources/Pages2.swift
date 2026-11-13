@@ -198,7 +198,7 @@ final class ShopPage: MnPage {
             if let err = err { self.paragraph(err); return }
             if (items ?? []).isEmpty { self.paragraph("商城暂时没有上架商品。"); return }
             for item in (items ?? []) {
-                let card = GlassCard(fill: Theme.card, radius: 16)
+                let card = GlassCard(radius: 16, fill: Theme.card)
                 let name = UILabel()
                 name.text = Api.string(item, "name")
                 name.textColor = Theme.ink
@@ -604,7 +604,7 @@ final class ToolsPage: MnPage {
         output.text = "正在检测…"
         Api.integrity { [weak self] ok, msg in
             var lines = ["本地检查：App 沙盒完整 ✓", "网络检查：" + (ok ? "后端一致 ✓" : "异常")]
-            if !msg.isEmpty { lines.append(msg) }
+            if let m = msg, !m.isEmpty { lines.append(m) }
             self?.output.text = lines.joined(separator: "\n")
         }
     }
@@ -650,7 +650,7 @@ final class SecurityPage: MnPage {
         Api.integrity { [weak self] ok, msg in
             var lines = ["✓ App 沙盒完整", "✓ 本地存储可读写"]
             lines.append(ok ? "✓ 后端完整性通过" : "✗ 后端完整性异常")
-            if !msg.isEmpty { lines.append("备注：" + msg) }
+            if let m = msg, !m.isEmpty { lines.append("备注：" + m) }
             self?.paragraph(lines.joined(separator: "\n"))
         }
     }
