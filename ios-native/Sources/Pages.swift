@@ -99,7 +99,7 @@ class MnPage: UIViewController {
     }
 
     func kv(_ key: String, _ value: String) {
-        let card = GlassCard(fill: Theme.card, radius: 14)
+        let card = GlassCard(radius: 14, fill: Theme.card)
         let k = UILabel()
         k.text = key
         k.textColor = Theme.muted
@@ -140,7 +140,7 @@ class MnPage: UIViewController {
 
     /// 可点的一行（标题 + 副标题 + 右侧箭头）
     func linkRow(_ title: String, _ subtitle: String, action: Selector) {
-        let card = GlassCard(fill: Theme.card, radius: 16)
+        let card = GlassCard(radius: 16, fill: Theme.card)
         let t = UILabel()
         t.text = title
         t.textColor = Theme.ink
