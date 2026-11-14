@@ -305,7 +305,7 @@ final class HomeViewController: UIViewController {
         guard sender.tag >= 0 && sender.tag < menu.count else { return }
         let item = menu[sender.tag]
         if item.key == "play.chess" {
-            navigationController?.pushViewController(ChessFlowViewController(), animated: true)
+            navigationController?.pushViewController(ChessTrainingPage(), animated: true)
         } else {
             navigationController?.pushViewController(
                 Pages.build(key: item.key, title: item.title), animated: true)
