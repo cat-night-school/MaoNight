@@ -231,3 +231,31 @@ extension Api {
         }
     }
 }
+
+// MARK: - 联机房间（五子棋）
+
+extension Api {
+    static func roomCreate(completion: @escaping ([String: Any]?, String?) -> Void) {
+        call("POST", "/api/rooms", nil) { data, err in
+            completion((data?["room"] as? [String: Any]), err)
+        }
+    }
+
+    static func roomJoin(id: String, completion: @escaping ([String: Any]?, String?) -> Void) {
+        call("POST", "/api/rooms/join", ["id": id]) { data, err in
+            completion((data?["room"] as? [String: Any]), err)
+        }
+    }
+
+    static func roomState(id: String, completion: @escaping ([String: Any]?, String?) -> Void) {
+        call("GET", "/api/rooms/state?id=" + (id.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? id), nil) { data, err in
+            completion((data?["room"] as? [String: Any]), err)
+        }
+    }
+
+    static func roomMove(id: String, x: Int, y: Int, completion: @escaping ([String: Any]?, String?) -> Void) {
+        call("POST", "/api/rooms/move", ["id": id, "x": x, "y": y]) { data, err in
+            completion((data?["room"] as? [String: Any]), err)
+        }
+    }
+}
