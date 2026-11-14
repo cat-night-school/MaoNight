@@ -362,6 +362,7 @@ final class XiangqiGamePage: MnPage {
     private var over = false
     private var history: [(Int, Int, [Int])] = []
     private var selected: Int = -1
+    private var boardHeight: NSLayoutConstraint?
 
     init(vsComputer: Bool, playerFirst: Bool, difficulty: Int) {
         self.vsComputer = vsComputer
@@ -403,7 +404,7 @@ final class XiangqiGamePage: MnPage {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let w = view.bounds.width - 24
-        board.heightAnchor.constraint(equalToConstant: min(w * 1.12, view.bounds.height - 430)).isActive = true
+        boardHeight?.constant = min(w * 1.12, view.bounds.height - 430)
     }
 
     private func reset() {
